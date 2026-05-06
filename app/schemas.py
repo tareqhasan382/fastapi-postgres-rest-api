@@ -4,6 +4,7 @@ from app.models import Role
 
 # ── Auth ──────────────────────────────────────────────
 class RegisterRequest(BaseModel):
+    full_name: Optional[str]
     email: EmailStr
     password: str
 
@@ -21,6 +22,7 @@ class RefreshRequest(BaseModel):
 
 class UserResponse(BaseModel):
     id: int
+    full_name: Optional[str] = None
     email: str
     role: Role
     is_active: bool

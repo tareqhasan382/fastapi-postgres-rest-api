@@ -24,7 +24,7 @@ def create_token(subject: str, token_type: str, expires_delta: timedelta) -> str
 def register(body: schemas.RegisterRequest, db: Session = Depends(get_db)):
     if crud.get_user_by_email(db, body.email):
         raise HTTPException(status_code=400, detail="Email already registered")
-    return crud.create_user(db, body.email, body.password)
+    return crud.create_user(db, body.email, body.password,body.full_name)
 
 @router.post("/login", response_model=schemas.TokenResponse)
 def login(body: schemas.LoginRequest, db: Session = Depends(get_db)):
