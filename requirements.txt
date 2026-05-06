@@ -5,3 +5,6 @@ psycopg[binary]
 alembic
 pydantic-settings
 python-dotenv
+bcrypt
+python-jose[cryptography]
+email-validator
