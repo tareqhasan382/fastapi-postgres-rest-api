@@ -1,3 +1,6 @@
+import utils.http_session
+import utils.transport
+import utils.session
 from fastapi import FastAPI
 from app.routers import items, auth, upload
 import subprocess
@@ -15,3 +18,7 @@ app.include_router(upload.router)
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.get("/")
+def base():
+    return {"status": "ok", "message": "Server is running"}
