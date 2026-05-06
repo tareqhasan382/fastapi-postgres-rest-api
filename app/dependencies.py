@@ -6,6 +6,7 @@ from app.database import get_db
 from app.models import User, Role
 from app import crud
 import os
+from typing import Callable
 
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
@@ -35,3 +36,13 @@ def require_admin(current_user: User = Depends(get_current_user)) -> User:
     if current_user.role != Role.admin:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin only")
     return current_user
+
+def require_roles(*roles: Role) -> Callable:
+    def checker(current_user: User = Depends(get_current_user)) -> User:
+        if current_user.role not in roles:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Access denied. Required roles: {[r.value for r in roles]}",
+            )
+        return current_user
+    return checker

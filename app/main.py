@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import items, auth
+from app.routers import items, auth, upload
 import subprocess
 
 app = FastAPI(title="FastAPI CRUD API", version="2.0.0")
@@ -10,6 +10,7 @@ def run_migrations():
 
 app.include_router(auth.router)
 app.include_router(items.router)
+app.include_router(upload.router)
 
 @app.get("/health")
 def health():

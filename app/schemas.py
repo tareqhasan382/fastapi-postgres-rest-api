@@ -26,7 +26,7 @@ class UserResponse(BaseModel):
     email: str
     role: Role
     is_active: bool
-
+    avatar_url: Optional[str] = None
     model_config = {"from_attributes": True}
 
 # ── Items ─────────────────────────────────────────────
@@ -47,3 +47,12 @@ class ItemResponse(BaseModel):
     is_active: bool
 
     model_config = {"from_attributes": True}
+
+# ── Uploads ─────────────────────────────────────────────
+class UploadResponse(BaseModel):
+    """Returned after any successful Cloudinary upload."""
+    url:           str
+    public_id:     str
+    format:        Optional[str] = None
+    resource_type: Optional[str] = None
+    bytes:         Optional[int] = None

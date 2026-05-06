@@ -8,3 +8,5 @@ python-dotenv
 bcrypt
 python-jose[cryptography]
 email-validator
+cloudinary          # Cloudinary SDK
+python-multipart    # FastAPI file upload

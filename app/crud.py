@@ -20,6 +20,15 @@ def create_user(db: Session, email: str, password: str,full_name: str = None):
     db.refresh(user)
     return user
 
+def update_user_avatar(db: Session, user_id: int, avatar_url: str):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        return None
+    user.avatar_url = avatar_url
+    db.commit()
+    db.refresh(user)
+    return user
+
 def get_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Item).offset(skip).limit(limit).all()
 
