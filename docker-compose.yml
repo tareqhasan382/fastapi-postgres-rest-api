@@ -16,6 +16,19 @@ services:
       timeout: 5s
       retries: 10
 
+  migrate:
+    build: .
+    container_name: mydb-migrate
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://postgres:password@postgres:5432/mydb
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: alembic upgrade head
+    restart: on-failure
+
   api:
     build: .
     container_name: mydb-api
@@ -24,10 +37,12 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgresql://postgres:password@postgres:5432/mydb
+      DATABASE_URL: postgresql+psycopg://postgres:password@postgres:5432/mydb
     depends_on:
       postgres:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
 
 volumes:
   postgres_data:
